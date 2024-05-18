@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function SearchBar(props) {
   const { txtSearch, onQueryChanged } = props;
   const [query, setQuery] = useState(txtSearch);
 
+  useEffect(function () {
+    onQueryChanged(query)
+  }, [onQueryChanged, query])
+
   const txtQuery_Changed = (e) => {
     setQuery(e.target.value)
     // onQueryChanged(query) // async => https://youtu.be/_3EUrVFTOE4?t=759
-    onQueryChanged(e.target.value)
+    // onQueryChanged(e.target.value)
   }
 
   /* Cannot update a component (`App`) while rendering a different component (`SearchBar`). 
@@ -18,12 +22,12 @@ export default function SearchBar(props) {
 
   const btnClear_Clicked = () => {
     setQuery(txtSearch)
-    onQueryChanged(txtSearch)
+    // onQueryChanged(txtSearch)
   }
   const txtQueryKeyUp = (e) => {
-    if (e.keyCode === 27) {
+    if (e.keyCode === 27) {// enter
       setQuery(txtSearch)
-      onQueryChanged(txtSearch)
+      // onQueryChanged(txtSearch)
     }
   }
 
