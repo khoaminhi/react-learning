@@ -59,6 +59,7 @@ input[type='text']:focus {
 .fg {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .fg input {
