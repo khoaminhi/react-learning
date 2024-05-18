@@ -1,33 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AppCtx from "../todoAppContext";
 
 export default function SearchBar(props) {
-  const { txtSearch, onQueryChanged } = props;
-  const [query, setQuery] = useState(txtSearch);
+  const { txtSearch } = props;
+  const [search, setSearch] = useState(txtSearch);
+  const {setQuery} = useContext(AppCtx)
 
   useEffect(function () {
-    onQueryChanged(query)
-  }, [onQueryChanged, query])
+    setQuery(search)
+  }, [search, setQuery])
 
   const txtQuery_Changed = (e) => {
-    setQuery(e.target.value)
-    // onQueryChanged(query) // async => https://youtu.be/_3EUrVFTOE4?t=759
-    // onQueryChanged(e.target.value)
+    setSearch(e.target.value)
   }
-
-  /* Cannot update a component (`App`) while rendering a different component (`SearchBar`). 
-  * To locate the bad setState() call inside `SearchBar`, follow the stack trace as described in 
-  * https://reactjs.org/link/setstate-in-render
-  */
-  // onQueryChanged(query)
-
   const btnClear_Clicked = () => {
-    setQuery(txtSearch)
-    // onQueryChanged(txtSearch)
+    setSearch(txtSearch)
   }
   const txtQueryKeyUp = (e) => {
     if (e.keyCode === 27) {// enter
-      setQuery(txtSearch)
-      // onQueryChanged(txtSearch)
+      setSearch(txtSearch)
     }
   }
 
@@ -36,7 +27,7 @@ export default function SearchBar(props) {
       <label style={{ fontWeight: 'bold' }}>
         Filter task by name
         <div className='fg'>
-          <input type='text' value={query} onChange={txtQuery_Changed} onKeyUp={txtQueryKeyUp} />
+          <input type='text' value={search} onChange={txtQuery_Changed} onKeyUp={txtQueryKeyUp} />
           <button type='button' onClick={btnClear_Clicked}>Clear</button>
         </div>
       </label>

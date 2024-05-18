@@ -1,17 +1,19 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
+import AppCtx from "../todoAppContext";
 
 export default function AddTask(props) {
-  const {onTaskItemAdded} = props
   const [itemTitle, setItem] = useState('New title 😊');
+  const {items, setItems} = useContext(AppCtx);
+
   const btnAdd_Clicked = function () {
     const newItem = {
       id: Date.now(),
       title: itemTitle,
       complete: false
     }
-    onTaskItemAdded(newItem)
-  }
 
+    setItems([...items, newItem])
+  }
 
   const txtItemTitle_Changed = function (e) {
     setItem(e.target.value)

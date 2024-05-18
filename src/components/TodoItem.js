@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import AppCtx from "../todoAppContext";
 
 export default function TodoItem(props) {
-  const {item, onItemDeleted} = props;
+  const {item} = props;
+  const {items, setItems} = useContext(AppCtx)
 
   const btnDel_Clicked =() => {
-    onItemDeleted(item.id)
+    const listNewItem = items.map((i) => i.id === item.id ? {...i, complete: true} : i)
+    setItems(listNewItem)
   }
 
   return (
