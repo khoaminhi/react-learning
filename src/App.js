@@ -1,15 +1,21 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useReducer} from 'react';
 import './App.css';
 import AddTask from './components/AddTask';
 import SearchBar from './components/SearchBar';
 import TodoList from './components/TodoList';
 import AppCtx from './todoAppContext';
+import reducer from './todoReducer';
+import ACTION_TYPE from './constants/action_type';
 
 
 function App() {
 
-  const [items, setItems] = useState([]);
-  const [query, setQuery] = useState('');
+  const initAppState = {
+    query: '',
+    items: []
+  }
+  
+  const [store, dispatch] = useReducer(reducer, initAppState);
 
   useEffect(function () {
     setTimeout(function () {
@@ -20,15 +26,22 @@ function App() {
         { id: 4, title: 'Our Bills', complete: false },
       ];
 
-      setItems(itemFromExternalSystem)
+      // pass action to reducer func
+      dispatch({
+        type: ACTION_TYPE.init,
+        payload: {
+          query: '',
+          items: itemFromExternalSystem
+        }
+      })
     }, 200)
   }, [])// don't pass the argument to an array to trigger (change watcher)
 
   return (
     <div className='container'>
-      <AppCtx.Provider value={{items, setItems, query, setQuery}}>
+      <AppCtx.Provider value={{store, dispatch}}>
         <SearchBar txtSearch='' />
-        <TodoList listTodo={items} txtSearch={query} />
+        <TodoList />
         <AddTask />
       </AppCtx.Provider>      
     </div>
