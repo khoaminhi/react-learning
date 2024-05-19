@@ -1,9 +1,10 @@
 import React, {useContext, useState} from "react";
 import AppCtx from "../todoAppContext";
+import ACTION_TYPE from "../constants/action_type";
 
 export default function AddTask(props) {
   const [itemTitle, setItem] = useState('New title 😊');
-  const {items, setItems} = useContext(AppCtx);
+  const {dispatch} = useContext(AppCtx);
 
   const btnAdd_Clicked = function () {
     const newItem = {
@@ -12,7 +13,10 @@ export default function AddTask(props) {
       complete: false
     }
 
-    setItems([...items, newItem])
+    dispatch({
+      type: ACTION_TYPE.add_item,
+      payload: newItem
+    })
   }
 
   const txtItemTitle_Changed = function (e) {

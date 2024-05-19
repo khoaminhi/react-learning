@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppCtx from "../todoAppContext";
+import ACTION_TYPE from "../constants/action_type";
 
 export default function SearchBar(props) {
   const { txtSearch } = props;
   const [search, setSearch] = useState(txtSearch);
-  const {setQuery} = useContext(AppCtx)
+  const {dispatch} = useContext(AppCtx)
 
   useEffect(function () {
-    setQuery(search)
-  }, [search, setQuery])
+    dispatch({
+      type: ACTION_TYPE.change_search,
+      payload: search
+    })
+  }, [search, dispatch])
 
   const txtQuery_Changed = (e) => {
     setSearch(e.target.value)
