@@ -1,50 +1,45 @@
-import {useEffect, useReducer} from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
-import AddTask from './components/AddTask';
-import SearchBar from './components/SearchBar';
-import TodoList from './components/TodoList';
-import AppCtx from './todoAppContext';
-import reducer from './todoReducer';
-import ACTION_TYPE from './constants/action_type';
-
+import Login from './views/LogIn';
+import Todo from './views/ToDo';
 
 function App() {
 
-  const initAppState = {
-    query: '',
-    items: []
-  }
-  
-  const [store, dispatch] = useReducer(reducer, initAppState);
-
-  useEffect(function () {
-    setTimeout(function () {
-      const itemFromExternalSystem = [
-        { id: 1, title: 'Pay Bills', complete: true },
-        { id: 2, title: 'Your Bill', complete: false },
-        { id: 3, title: 'Their Bills', complete: false },
-        { id: 4, title: 'Our Bills', complete: false },
-      ];
-
-      // pass action to reducer func
-      dispatch({
-        type: ACTION_TYPE.init,
-        payload: {
-          query: '',
-          items: itemFromExternalSystem
-        }
-      })
-    }, 200)
-  }, [])// don't pass the argument to an array to trigger (change watcher)
 
   return (
-    <div className='container'>
-      <AppCtx.Provider value={{store, dispatch}}>
-        <SearchBar txtSearch='' />
-        <TodoList />
-        <AddTask />
-      </AppCtx.Provider>      
-    </div>
+    <Router>
+      <div>
+        <Switch>
+          <PrivateRoute exact path="/">
+            <Todo />
+          </PrivateRoute>
+          <Route path="/login">
+            <Login />
+          </Route>
+
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+function PrivateRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        (JSON.parse(localStorage.getItem('x-api-token'))?.secret === 'ai-love-you') ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
   );
 }
 

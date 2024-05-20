@@ -24,7 +24,7 @@ button {
   border-radius: 4px;
   color: white;
   height: 25px;
-  min-width: 80px;
+  min-width: 91px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -36,7 +36,7 @@ button {
   transition-duration: 0.2s;
 }
 
-input[type='text'] {
+input {
   display: inline-block;
   width: 100%;
   font-size: 11pt;
@@ -51,7 +51,7 @@ input[type='text'] {
   border-top: none;
 }
 
-input[type='text']:focus {
+input:focus {
   box-shadow: 0 0 7px rgba(81, 203, 238, 1);
   border: 1px solid rgba(81, 203, 238, 1);
 }
@@ -64,6 +64,10 @@ input[type='text']:focus {
 
 .fg input {
   margin-right: 10px;
+}
+
+.fg span {
+  color: red;
 }
 
 ul {
@@ -87,3 +91,6 @@ li.done {
   color: #ddd;
 }
 
+.mt-3 {
+  margin-top: 15px;
+}
